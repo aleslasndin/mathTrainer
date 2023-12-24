@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include <time.h>
 
 #define RED "\e[3;31m" //for title
@@ -47,6 +48,14 @@ int problemErrorHandling(){
     return 1;
 }
 
+int exitProgram(){
+    printf(BOLD"\nExiting "RESET RED"MATH TUTOR V 2.0\n"RESET);
+    printf("\nPress any key to continue . . . ");
+    getch();
+    printf("\33[2K\r");
+    printf("Come back anytime! Remember that practice makes perfect :)\n");
+}
+
 int main() {
     system("cls");
     score = 0;
@@ -77,10 +86,7 @@ int main() {
             break;
         case 4: divisionRandomizer();
             break;
-        case 5:{
-            printf(BOLD"\nExiting . . ."RESET"\n\nCome back anytime! Remember that practice makes perfect :)\n\n");
-            system("pause");
-        }
+        case 5: exitProgram();   
     }
     
     free(correctAnswers);

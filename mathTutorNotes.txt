@@ -1,0 +1,24 @@
+to change
+/- limit problems to 20 only ffs
+/- ask user to input again after an invalid input
+/	*in number of problems
+- make add problems easier
+/- differentiate error output for 0 prob and 20+ probs
+/	answer at least 1
+x- how many problems would y...? -> make an independent function using pointers
+	500 problems are too many! Just come back again(?) if you want to practice more.
+/- problem types color
+	addition: red
+	subtraction: blue
+	multiply: orange
+	divide: violet
+		(synethesia & xchild development)
+/- color for scores
+	perfect: green/green
+	not perfect: red/green
+x- make exit as function
+	nah what do you mean
+
+xcomment:
+	error handling list
+	color reason?? nah /color references

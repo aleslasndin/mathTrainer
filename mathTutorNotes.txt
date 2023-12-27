@@ -1,6 +1,0 @@
-to change
-- make addition and subtraction problems easier
-- "how many problems would y...?" -> make an independent function
-	then it would be "how many ... [operationVariable] problems..."
-	- possible in C?
-- make score and results a function

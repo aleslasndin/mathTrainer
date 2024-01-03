@@ -24,7 +24,7 @@ void divisionRandomizer();
 int i, ind, num1, num2, correctAnswer, choice, userAnswer, score = 0;
 int *correctAnswers, *userAnswers;
 
-void printMenu() {
+void printMenu(){
     system("cls");
     score = 0;
     printf(TITLE"MATH TRAINER");
@@ -43,12 +43,12 @@ void errorChoiceInput(){
 int problemErrorHandling(){
     //error handling for inputting number of problems
     //*use pointers? later
-    if (scanf("%d", &ind) != 1 ) {
+    if (scanf("%d", &ind) != 1 ){
         //if not a number
         printf("\nThat is not a number! Enter a number from 1 to 20.\n");
         return 0;
     }
-    else if (ind < 1) {
+    else if (ind < 1){
         //if less than 1
         printf("\nYou need to answer at least 1 problem!\n");
         return 0;
@@ -62,8 +62,8 @@ int problemErrorHandling(){
     return 1;
 }
 
-void loadingEllipsis() {
-    for(i = 0; i < 3; i++) {
+void loadingEllipsis(){
+    for(i = 0; i < 3; i++){
         printf(" .");
         Sleep(500);
     }
@@ -74,11 +74,11 @@ void printScoreAndAnswers(){
 
     printf("\nCorrect Answers:\n"RESET);
 
-    for(i = 0; i < ind; i++) {
+    for(i = 0; i < ind; i++){
         if (userAnswers[i]==correctAnswers[i]){
             printf("\n"TAB"Problem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
         }
-        else {
+        else{
             printf("\n"TAB"Problem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
         }
     }
@@ -96,12 +96,12 @@ void exitProgram(){
     printf("Come back anytime! Remember that practice makes perfect :)");
 }
 
-int main() {
+int main(){
     printMenu();
 
-    while (1) {
+    while (1){
         printf("\nEnter your choice: ");
-        if (scanf("%d", &choice) != 1 || choice < 1 || choice > 5) {
+        if (scanf("%d", &choice) != 1 || choice < 1 || choice > 5){
             errorChoiceInput();
             while (getchar() != '\n');
             continue;
@@ -109,7 +109,7 @@ int main() {
         break;
     }
 
-    switch (choice) {
+    switch (choice){
         case 1: additionRandomizer();
             break;
         case 2: subtractionRandomizer();
@@ -125,12 +125,12 @@ int main() {
     return 0;
 }
 
-void additionRandomizer() {
+void additionRandomizer(){
     printMenu();
 
     srand(time(NULL));
     printf("\nHow many "ADD"Addition"RESET" problems would you like to answer? [up to 20 only]: ");
-    while(!problemErrorHandling()) {
+    while(!problemErrorHandling()){
         while (getchar() != '\n');
         printf("\nHow many "ADD"Addition"RESET" problems would you like to answer? [up to 20 only]: ");
     }
@@ -160,12 +160,12 @@ void additionRandomizer() {
     printScoreAndAnswers();
 }
 
-void subtractionRandomizer() {
+void subtractionRandomizer(){
     printMenu();
 
     srand(time(NULL));
  	printf("\nHow many "SUB"Subtraction"RESET" problems would you like to answer? [up to 20 only]: ");
-    while(!problemErrorHandling()) {
+    while(!problemErrorHandling()){
         while (getchar() != '\n');
         printf("\nHow many "SUB"Subtraction"RESET" problems would you like to answer? [up to 20 only]: ");
     }
@@ -195,12 +195,12 @@ void subtractionRandomizer() {
     printScoreAndAnswers();
 }
 
-void multiplicationRandomizer() {
+void multiplicationRandomizer(){
     printMenu();
 
     srand(time(NULL));
 	printf("\nHow many "MUL"Multiplication"RESET" problems would you like to answer [up to 20 only]: ");
-    while(!problemErrorHandling()) {
+    while(!problemErrorHandling()){
         while (getchar() != '\n');
         printf("\nHow many "MUL"Multiplication"RESET" problems would you like to answer [up to 20 only]: ");
     }
@@ -229,12 +229,12 @@ void multiplicationRandomizer() {
     printScoreAndAnswers();
 }
 
-void divisionRandomizer() {
+void divisionRandomizer(){
     printMenu();
 
     srand(time(NULL));
   	printf("\nHow many "DIV"Division"RESET" problems would you like to answer [up to 20 only]: ");
-    while(!problemErrorHandling()) {
+    while(!problemErrorHandling()){
         while (getchar() != '\n');
       	printf("\nHow many "DIV"Division"RESET" problems would you like to answer [up to 20 only]: ");
     }

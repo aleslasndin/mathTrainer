@@ -157,7 +157,7 @@ void additionRandomizer() {
         }
     }
 
-    printScoreAndAnswers()
+    printScoreAndAnswers();
 }
 
 void subtractionRandomizer() {
@@ -192,7 +192,7 @@ void subtractionRandomizer() {
         }
     }
 
-    printScoreAndAnswers()
+    printScoreAndAnswers();
 }
 
 void multiplicationRandomizer() {
@@ -226,7 +226,7 @@ void multiplicationRandomizer() {
         }
     }
 
-    printScoreAndAnswers()
+    printScoreAndAnswers();
 }
 
 void divisionRandomizer() {
@@ -260,5 +260,5 @@ void divisionRandomizer() {
         }
     }
 
-    printScoreAndAnswers()
+    printScoreAndAnswers();
 }

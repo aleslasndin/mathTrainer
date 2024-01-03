@@ -36,7 +36,7 @@ void printMenu() {
     printf("Press ["BOLD"5"RESET "] to "BOLD"Exit "RESET""TITLE"MATH TRAINER\n"RESET);
 }
 
-int errorChoiceInput(){
+void errorChoiceInput(){
    printf("\nThat's an invalid choice. Please choose from the menu above ["BOLD"1"RESET" to "BOLD"5"RESET"].\n", choice);
 }
 
@@ -69,7 +69,26 @@ void loadingEllipsis() {
     }
 }
 
-int exitProgram(){
+void printScoreAndAnswers(){
+    printf("\nYour total score is "BOLD"%d/%d\n", score, ind);
+
+    printf("\nCorrect Answers:\n"RESET);
+
+    for(i = 0; i < ind; i++) {
+        if (userAnswers[i]==correctAnswers[i]){
+            printf("\n"TAB"Problem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
+        }
+        else {
+            printf("\n"TAB"Problem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
+        }
+    }
+
+    printf("\n\n");
+    system("pause");
+    main();
+}
+
+void exitProgram(){
     printf(BOLD"\nExiting "RESET TITLE"MATH TRAINER\n"RESET);
     printf("\nPress any key to continue . . . ");
     getch();
@@ -138,22 +157,7 @@ void additionRandomizer() {
         }
     }
 
-    printf("\nYour total score is "BOLD"%d/%d\n", score, ind);
-
-    printf("\nCorrect Answers:\n"RESET);
-
-    for(i = 0; i < ind; i++) {
-        if (userAnswers[i]==correctAnswers[i]){
-            printf("\n"TAB"Problem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
-        }
-        else {
-            printf("\n"TAB"Problem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
-        }
-    }
-
-    printf("\n\n");
-    system("pause");
-    main();
+    printScoreAndAnswers()
 }
 
 void subtractionRandomizer() {
@@ -188,20 +192,7 @@ void subtractionRandomizer() {
         }
     }
 
-    printf("\nYour total score is "BOLD"%d/%d\n"RESET, score, ind);
-
-    printf(BOLD"\nCorrect Answers: "RESET);
-    for(i = 0; i < ind; i++) {
-        if (userAnswers[i]==correctAnswers[i]){
-            printf("\nProblem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
-        }
-        else {
-            printf("\nProblem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
-        }
-    }
-    printf("\n\n");
-    system("pause");
-    main();
+    printScoreAndAnswers()
 }
 
 void multiplicationRandomizer() {
@@ -235,20 +226,7 @@ void multiplicationRandomizer() {
         }
     }
 
-    printf("\nYour total score is "BOLD"%d/%d\n"RESET, score, ind);
-
-    printf(BOLD"\nCorrect Answers: "RESET);
-    for(i = 0; i < ind; i++) {
-        if (userAnswers[i]==correctAnswers[i]){
-            printf("\nProblem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
-        }
-        else {
-            printf("\nProblem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
-        }
-    }
-    printf("\n\n");
-    system("pause");
-    main();
+    printScoreAndAnswers()
 }
 
 void divisionRandomizer() {
@@ -282,18 +260,5 @@ void divisionRandomizer() {
         }
     }
 
-    printf("\nYour total score is "BOLD"%d/%d\n"RESET, score, ind);
-
-    printf(BOLD"\nCorrect Answers: "RESET);
-    for(i = 0; i < ind; i++) {
-        if (userAnswers[i]==correctAnswers[i]){
-            printf("\nProblem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
-        }
-        else {
-            printf("\nProblem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
-        }
-    }
-    printf("\n\n");
-    system("pause");
-    main();
+    printScoreAndAnswers()
 }

@@ -43,17 +43,17 @@ void errorChoiceInput(){
 int problemErrorHandling(){
     //error handling for inputting number of problems
     //*use pointers? later
-    if (scanf("%d", &ind) != 1 ){
+    if(scanf("%d", &ind) != 1 ){
         //if not a number
         printf("\nThat is not a number! Enter a number from 1 to 20.\n");
         return 0;
     }
-    else if (ind < 1){
+    else if(ind < 1){
         //if less than 1
         printf("\nYou need to answer at least 1 problem!\n");
         return 0;
     }
-    else if (ind > 20){
+    else if(ind > 20){
         //if greater than 20
         printf("\n%d problems are too many! Just answer another set of problems later if you want to practice more.\n", ind);
             //21 is too many compared to 20?? nevermind
@@ -69,25 +69,6 @@ void loadingEllipsis(){
     }
 }
 
-void printScoreAndAnswers(){
-    printf("\nYour total score is "BOLD"%d/%d\n", score, ind);
-
-    printf("\nCorrect Answers:\n"RESET);
-
-    for(i = 0; i < ind; i++){
-        if (userAnswers[i]==correctAnswers[i]){
-            printf("\n"TAB"Problem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
-        }
-        else{
-            printf("\n"TAB"Problem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
-        }
-    }
-
-    printf("\n\n");
-    system("pause");
-    main();
-}
-
 void exitProgram(){
     printf(BOLD"\nExiting "RESET TITLE"MATH TRAINER\n"RESET);
     printf("\nPress any key to continue . . . ");
@@ -101,7 +82,7 @@ int main(){
 
     while (1){
         printf("\nEnter your choice: ");
-        if (scanf("%d", &choice) != 1 || choice < 1 || choice > 5){
+        if(scanf("%d", &choice) != 1 || choice < 1 || choice > 5){
             errorChoiceInput();
             while (getchar() != '\n');
             continue;
@@ -123,6 +104,25 @@ int main(){
     
     free(correctAnswers);
     return 0;
+}
+
+void printScoreAndAnswers(){
+    printf("\nYour total score is "BOLD"%d/%d\n", score, ind);
+
+    printf("\nCorrect Answers:\n"RESET);
+
+    for(i = 0; i < ind; i++){
+        if(userAnswers[i]==correctAnswers[i]){
+            printf("\n"TAB"Problem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
+        }
+        else{
+            printf("\n"TAB"Problem (%d): "SCRED"%d"RESET, i + 1, correctAnswers[i]);
+        }
+    }
+
+    printf("\n\n");
+    system("pause");
+    main();
 }
 
 void additionRandomizer(){
@@ -152,7 +152,7 @@ void additionRandomizer(){
         scanf("%d", &userAnswer);
 
         userAnswers[i - 1] = userAnswer;
-        if (correctAnswer == userAnswer){
+        if(correctAnswer == userAnswer){
             score += 1;
         }
     }

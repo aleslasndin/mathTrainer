@@ -5,9 +5,9 @@
 #include <windows.h> //for sleep function; Sleep - with capital S
 
 #define TAB "    "
-#define TITLE "\e[3;32m" //italic green, for title
-#define SCRED "\e[0;31m" //for score, and answers
-#define SCGREEN "\e[0;32m" //for score
+#define TITLE "\e[3;32m" //italic green for title
+#define SCRED "\e[0;31m" //red for score and answers
+#define SCGREEN "\e[0;32m" //green for score
 #define ADD "\e[1;31m" //red
 #define SUB "\e[1;34m" //blue
 #define MUL "\e[1;38;5;208m" //orange
@@ -41,20 +41,15 @@ void errorChoiceInput(){
 }
 
 int problemErrorHandling(){
-    //error handling for inputting number of problems
-    //*use pointers? later
     if(scanf("%d", &ind) != 1 ){
-        //if not a number
         printf("\nThat is not a number! Enter a number from 1 to 20.\n");
         return 0;
     }
     else if(ind < 1){
-        //if less than 1
         printf("\nYou need to answer at least 1 problem!\n");
         return 0;
     }
     else if(ind > 20){
-        //if greater than 20
         printf("\n%d problems are too many! Just answer another set of problems later if you want to practice more.\n", ind);
             //21 is too many compared to 20?? nevermind
         return 0;

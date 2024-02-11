@@ -1,9 +1,10 @@
 to change
 - make addition and subtraction problems easier
-- make out error for non number input in problems
 
-- float error handling
-/   - in getting desired number of problems
-    - and in answers to problems
+- answer to problems error handling
+    - for non numbers
+    - and for floats
+
+avoid getting any keyboard input, while problems are "loading"; how?
 
 - "loading 1 addition problemssss"

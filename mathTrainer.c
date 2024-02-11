@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
-#include <windows.h> //for sleep function; Sleep - with capital S
+#include <windows.h> //for sleep function; Sleep - with capital S!
+#include <math.h>
 
 #define TAB "    "
 #define TITLE "\e[3;32m" //italic green for title
@@ -21,7 +22,8 @@ void subtractionRandomizer();
 void multiplicationRandomizer();
 void divisionRandomizer();
 
-int i, ind, num1, num2, correctAnswer, choice, userAnswer, score = 0;
+int i, numOfProblems, num1, num2, correctAnswer, userAnswer, score = 0;
+float choice;
 int *correctAnswers, *userAnswers;
 
 void printMenu(){
@@ -41,19 +43,28 @@ void errorChoiceInput(){
 }
 
 int problemErrorHandling(){
-    if(scanf("%d", &ind) != 1 ){
-        printf("\nThat is not a number! Enter a number from 1 to 20.\n");
+    float numOfProblemsFloat;
+
+    if(scanf("%f", &numOfProblemsFloat) != 1 ){
+        printf("\nThat is not a number! "BOLD"Enter a number from 1 to 20.\n"RESET);
         return 0;
     }
-    else if(ind < 1){
-        printf("\nYou need to answer at least 1 problem!\n");
+    else if(numOfProblemsFloat < 1){
+        printf(BOLD"\nYou need to answer at least 1 problem!\n"RESET);
         return 0;
     }
-    else if(ind > 20){
-        printf("\n%d problems are too many! Just answer another set of problems later if you want to practice more.\n", ind);
-            //21 is too many compared to 20?? nevermind
+    else if(floor(numOfProblemsFloat) != numOfProblemsFloat){
+        printf("\nThere are no fractional amounts of problems! "BOLD"Enter a whole number.\n"RESET);
         return 0;
     }
+    else if(numOfProblemsFloat > 20){
+        numOfProblems = numOfProblemsFloat;
+        printf(BOLD"\n%d problems are a lot!"RESET" Just answer another set of problems later if you want to practice more.\n", numOfProblems);
+            // 21 is too many compared to 20?? nevermind
+        return 0;
+    }
+
+    numOfProblems = numOfProblemsFloat;
     return 1;
 }
 
@@ -77,15 +88,18 @@ int main(){
 
     while (1){
         printf("\nEnter your choice: ");
-        if(scanf("%d", &choice) != 1 || choice < 1 || choice > 5){
+        if(scanf("%f", &choice) != 1 || choice < 1 || choice > 5 || (floor(choice) != choice)){
             errorChoiceInput();
             while (getchar() != '\n');
             continue;
         }
         break;
     }
-
-    switch (choice){
+    
+    int choiceInt;
+    choiceInt = choice;
+    
+    switch (choiceInt){
         case 1: additionRandomizer();
             break;
         case 2: subtractionRandomizer();
@@ -102,11 +116,11 @@ int main(){
 }
 
 void printScoreAndAnswers(){
-    printf("\nYour total score is "BOLD"%d/%d\n", score, ind);
+    printf("\nYour total score is "BOLD"%d/%d\n", score, numOfProblems);
 
     printf("\nCorrect Answers:\n"RESET);
 
-    for(i = 0; i < ind; i++){
+    for(i = 0; i < numOfProblems; i++){
         if(userAnswers[i]==correctAnswers[i]){
             printf("\n"TAB"Problem (%d): "SCGREEN"%d"RESET, i + 1, correctAnswers[i]);
         }
@@ -131,20 +145,20 @@ void additionRandomizer(){
     }
 
     system("cls");
-    printf("Loading ("BOLD"%d"RESET") "ADD"Addition"RESET" Problems", ind);
+    printf("Loading ("BOLD"%d"RESET") "ADD"Addition"RESET" Problems", numOfProblems);
     loadingEllipsis();
     printf("\n\n");
 
-    correctAnswers = (int *)malloc(ind * sizeof(int));
-    userAnswers = (int *)malloc(ind * sizeof(int));
+    correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    userAnswers = (int *)malloc(numOfProblems * sizeof(int));
 
-    for(i = 1; i <= ind; i++){
+    for(i = 1; i <= numOfProblems; i++){
         num1 = rand()%100;
         num2 = rand()%100;
         correctAnswer = num1 + num2;
         correctAnswers[i - 1] = correctAnswer;
         printf(TAB"Problem (%d): %d + %d = ", i, num1, num2);
-        scanf("%d", &userAnswer);
+        scanf("%f", &userAnswer);
 
         userAnswers[i - 1] = userAnswer;
         if(correctAnswer == userAnswer){
@@ -166,14 +180,14 @@ void subtractionRandomizer(){
     }
 
     system("cls");
-    printf("Loading ("BOLD"%d"RESET") "SUB"Subtraction"RESET" Problems", ind);
+    printf("Loading ("BOLD"%d"RESET") "SUB"Subtraction"RESET" Problems", numOfProblems);
     loadingEllipsis();
     printf("\n\n");
 
-    correctAnswers = (int *)malloc(ind * sizeof(int));
-    userAnswers = (int *)malloc(ind * sizeof(int));
+    correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    userAnswers = (int *)malloc(numOfProblems * sizeof(int));
 
-    for(i = 1; i <= ind; i++){
+    for(i = 1; i <= numOfProblems; i++){
 		num1 = 1 + rand() % 100;
         num2 = rand() % num1;
         correctAnswer = num1 - num2;
@@ -201,13 +215,13 @@ void multiplicationRandomizer(){
     }
 
     system("cls");
-    printf("Loading ("BOLD"%d"RESET") "MUL"Multiplication"RESET" Problems", ind);
+    printf("Loading ("BOLD"%d"RESET") "MUL"Multiplication"RESET" Problems", numOfProblems);
     loadingEllipsis();
     printf("\n\n");
     
-    correctAnswers = (int *)malloc(ind * sizeof(int));
-    userAnswers = (int *)malloc(ind * sizeof(int));
-    for(i = 1; i <= ind; i++){
+    correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    userAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    for(i = 1; i <= numOfProblems; i++){
 		num1 = 1 + rand() % 10;
         num2 = 1 + rand() % (200 / num1);
         correctAnswer = num1 * num2;
@@ -235,13 +249,13 @@ void divisionRandomizer(){
     }
 
     system("cls");
-    printf("Loading ("BOLD"%d"RESET") "DIV"Division"RESET" Problems", ind);
+    printf("Loading ("BOLD"%d"RESET") "DIV"Division"RESET" Problems", numOfProblems);
     loadingEllipsis();
     printf("\n\n");
     
-    correctAnswers = (int *)malloc(ind * sizeof(int));
-    userAnswers = (int *)malloc(ind * sizeof(int));
-    for(i = 1; i <= ind; i++){
+    correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    userAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    for(i = 1; i <= numOfProblems; i++){
 		num2 = 1 + rand() % 10;
         num1 = num2 * (1 + rand() % 10);
         correctAnswer = num1 / num2;

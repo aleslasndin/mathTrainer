@@ -1,3 +1,9 @@
 to change
 - make addition and subtraction problems easier
 - make out error for non number input in problems
+
+- float error handling
+/   - in getting desired number of problems
+    - and in answers to problems
+
+- "loading 1 addition problemssss"

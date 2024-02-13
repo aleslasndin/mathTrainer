@@ -2,20 +2,24 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
-#include <windows.h> //for sleep function; Sleep - with capital S!
+#include <windows.h> // for sleep function; Sleep - with capital S!
 #include <math.h>
 
 #define TAB "    "
-#define TITLE "\e[3;32m" //italic green for title
-#define SCRED "\e[0;31m" //red for score and answers
-#define SCGREEN "\e[0;32m" //green for score
-#define ADD "\e[1;31m" //red
-#define SUB "\e[1;34m" //blue
-#define MUL "\e[1;38;5;208m" //orange
-#define DIV "\e[1;35m" //violet
-#define BOLD "\e[1m" //for menu choices
+#define TITLE "\e[3;32m" // italic green for title
+#define SCRED "\e[0;31m" // red for score and answers
+#define SCGREEN "\e[0;32m" // green for score
+#define BOLD "\e[1m" // for menu choices
 #define RESET "\e[0m"
-//colors reference: https://gist.github.com/iamnewton/8754917
+
+// colors for opperation names
+#define ADDCOLOR "\e[1;31m" // red
+#define SUBCOLOR "\e[1;34m" // blue
+#define MULCOLOR "\e[1;38;5;208m" // orange
+#define DIVCOLOR "\e[1;35m" // violet
+// colors reference: https://gist.github.com/iamnewton/8754917
+
+#define OPERATION_NAME_AND_COLOR_MAX 15
 
 void additionRandomizer();
 void subtractionRandomizer();
@@ -25,21 +29,19 @@ void divisionRandomizer();
 int i, numOfProblems, num1, num2, correctAnswer, userAnswer, score = 0;
 float choice;
 int *correctAnswers, *userAnswers;
+char operationName[OPERATION_NAME_AND_COLOR_MAX]; // size is exact for "multiplication\0", is it ok?
+char operationColor[OPERATION_NAME_AND_COLOR_MAX]; // will hold the color string value from the respective macro
 
 void printMenu(){
     system("cls");
     score = 0;
     printf(TITLE"MATH TRAINER");
     printf(RESET "\n\n----- MENU -----\n\n");
-    printf("Press ["BOLD"1"RESET "] for "ADD"Addition\n"RESET);
-    printf("Press ["BOLD"2"RESET "] for "SUB"Subtraction\n"RESET);
-    printf("Press ["BOLD"3"RESET "] for "MUL"Multiplication\n"RESET);
-    printf("Press ["BOLD"4"RESET "] for "DIV"Division\n"RESET);
-    printf("Press ["BOLD"5"RESET "] to "BOLD"Exit "RESET""TITLE"MATH TRAINER\n"RESET);
-}
-
-void errorChoiceInput(){
-   printf("\nThat's an invalid choice. Please choose from the menu above ["BOLD"1"RESET" to "BOLD"5"RESET"].\n", choice);
+    printf("Press ["BOLD"1"RESET "] for "ADDCOLOR"Addition\n"RESET);
+    printf("Press ["BOLD"2"RESET "] for "SUBCOLOR"Subtraction\n"RESET);
+    printf("Press ["BOLD"3"RESET "] for "MULCOLOR"Multiplication\n"RESET);
+    printf("Press ["BOLD"4"RESET "] for "DIVCOLOR"Division\n"RESET);
+    printf("Press ["BOLD"0"RESET "] to "BOLD"Exit "RESET""TITLE"MATH TRAINER\n"RESET);
 }
 
 int problemErrorHandling(){
@@ -54,7 +56,7 @@ int problemErrorHandling(){
         return 0;
     }
     else if(floor(numOfProblemsFloat) != numOfProblemsFloat){
-        printf("\nThere are no fractional amounts of problems! "BOLD"Enter a whole number.\n"RESET);
+        printf("\nThere are no fractional amount of problems! "BOLD"Enter a whole number.\n"RESET);
         return 0;
     }
     else if(numOfProblemsFloat > 20){
@@ -68,7 +70,7 @@ int problemErrorHandling(){
     return 1;
 }
 
-void loadingEllipsis(){
+void loadingEllipsis(){ // prints an ellipsis in 1.5 seconds
     for(i = 0; i < 3; i++){
         printf(" .");
         Sleep(500);
@@ -80,7 +82,7 @@ void exitProgram(){
     printf("\nPress any key to continue . . . ");
     getch();
     printf("\33[2K\r");
-    printf("Come back anytime! Remember that practice makes perfect :)");
+    printf("Come back anytime! Remember that practice makes perfect "BOLD":)"RESET);
 }
 
 int main(){
@@ -88,8 +90,8 @@ int main(){
 
     while (1){
         printf("\nEnter your choice: ");
-        if(scanf("%f", &choice) != 1 || choice < 1 || choice > 5 || (floor(choice) != choice)){
-            errorChoiceInput();
+        if(scanf("%f", &choice) != 1 || choice < 0 || choice > 4 || (floor(choice) != choice)){
+            printf("\nThat's an invalid choice. Please choose from the menu above ["BOLD"1"RESET" to "BOLD"4"RESET", or "BOLD"0"RESET"].\n", choice);
             while (getchar() != '\n');
             continue;
         }
@@ -97,7 +99,7 @@ int main(){
     }
     
     int choiceInt;
-    choiceInt = choice;
+    choiceInt = choice; // convert (float) choice into int, as switch-case function only accepts int
     
     switch (choiceInt){
         case 1: additionRandomizer();
@@ -108,11 +110,39 @@ int main(){
             break;
         case 4: divisionRandomizer();
             break;
-        case 5: exitProgram();   
+        case 0: exitProgram();   
     }
     
     free(correctAnswers);
     return 0;
+}
+
+void getAndLoadNumberOfProblems(){
+    do{
+        while (getchar() != '\n');
+        printf("\nHow many %s%s"RESET" problems would you like to answer? [up to 20 only]: ", operationColor, operationName);
+    } while(!problemErrorHandling());
+
+    system("cls");
+
+    if(numOfProblems == 1){ // condition for "problem(s)"
+        printf("Loading ("BOLD"%d"RESET") %s%s"RESET" Problem", numOfProblems, operationColor, operationName);
+    }
+    else{
+        printf("Loading ("BOLD"%d"RESET") %s%s"RESET" Problems", numOfProblems, operationColor, operationName);
+    }
+
+    loadingEllipsis();
+    printf("\n\n");
+}
+
+void checkUserAnswerAndCalculateScore(){
+    scanf("%d", &userAnswer);
+
+    userAnswers[i - 1] = userAnswer;
+    if(correctAnswer == userAnswer){
+        score += 1;
+    }
 }
 
 void printScoreAndAnswers(){
@@ -136,21 +166,14 @@ void printScoreAndAnswers(){
 
 void additionRandomizer(){
     printMenu();
-
-    srand(time(NULL));
-    printf("\nHow many "ADD"Addition"RESET" problems would you like to answer? [up to 20 only]: ");
-    while(!problemErrorHandling()){
-        while (getchar() != '\n');
-        printf("\nHow many "ADD"Addition"RESET" problems would you like to answer? [up to 20 only]: ");
-    }
-
-    system("cls");
-    printf("Loading ("BOLD"%d"RESET") "ADD"Addition"RESET" Problems", numOfProblems);
-    loadingEllipsis();
-    printf("\n\n");
+    
+    strcpy(operationName, "Addition");
+    strcpy(operationColor, ADDCOLOR);
+    getAndLoadNumberOfProblems();
 
     correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
     userAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    srand(time(NULL));
 
     for(i = 1; i <= numOfProblems; i++){
         num1 = rand()%100;
@@ -158,12 +181,8 @@ void additionRandomizer(){
         correctAnswer = num1 + num2;
         correctAnswers[i - 1] = correctAnswer;
         printf(TAB"Problem (%d): %d + %d = ", i, num1, num2);
-        scanf("%f", &userAnswer);
-
-        userAnswers[i - 1] = userAnswer;
-        if(correctAnswer == userAnswer){
-            score += 1;
-        }
+       
+       checkUserAnswerAndCalculateScore();
     }
 
     printScoreAndAnswers();
@@ -172,20 +191,13 @@ void additionRandomizer(){
 void subtractionRandomizer(){
     printMenu();
 
-    srand(time(NULL));
- 	printf("\nHow many "SUB"Subtraction"RESET" problems would you like to answer? [up to 20 only]: ");
-    while(!problemErrorHandling()){
-        while (getchar() != '\n');
-        printf("\nHow many "SUB"Subtraction"RESET" problems would you like to answer? [up to 20 only]: ");
-    }
-
-    system("cls");
-    printf("Loading ("BOLD"%d"RESET") "SUB"Subtraction"RESET" Problems", numOfProblems);
-    loadingEllipsis();
-    printf("\n\n");
+ 	strcpy(operationName, "Subtraction");
+    strcpy(operationColor, SUBCOLOR);
+    getAndLoadNumberOfProblems();
 
     correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
     userAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    srand(time(NULL));
 
     for(i = 1; i <= numOfProblems; i++){
 		num1 = 1 + rand() % 100;
@@ -193,12 +205,8 @@ void subtractionRandomizer(){
         correctAnswer = num1 - num2;
         correctAnswers[i - 1] = correctAnswer;
         printf(TAB"Problem (%d): %d - %d = ", i, num1, num2);
-        scanf("%d", &userAnswer);
-
-        userAnswers[i - 1] = userAnswer;
-        if(correctAnswer == userAnswer){
-            score += 1;
-        }
+        
+        checkUserAnswerAndCalculateScore();
     }
 
     printScoreAndAnswers();
@@ -207,32 +215,22 @@ void subtractionRandomizer(){
 void multiplicationRandomizer(){
     printMenu();
 
-    srand(time(NULL));
-	printf("\nHow many "MUL"Multiplication"RESET" problems would you like to answer [up to 20 only]: ");
-    while(!problemErrorHandling()){
-        while (getchar() != '\n');
-        printf("\nHow many "MUL"Multiplication"RESET" problems would you like to answer [up to 20 only]: ");
-    }
-
-    system("cls");
-    printf("Loading ("BOLD"%d"RESET") "MUL"Multiplication"RESET" Problems", numOfProblems);
-    loadingEllipsis();
-    printf("\n\n");
+	strcpy(operationName, "Multiplication");
+    strcpy(operationColor, MULCOLOR);
+    getAndLoadNumberOfProblems();
     
     correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
     userAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    srand(time(NULL));
+
     for(i = 1; i <= numOfProblems; i++){
 		num1 = 1 + rand() % 10;
         num2 = 1 + rand() % (200 / num1);
         correctAnswer = num1 * num2;
         correctAnswers[i - 1] = correctAnswer;
         printf(TAB"Problem (%d): %d x %d = ", i, num1, num2);
-        scanf("%d", &userAnswer);
-
-        userAnswers[i - 1] = userAnswer;
-        if(correctAnswer == userAnswer){
-            score += 1;
-        }
+        
+        checkUserAnswerAndCalculateScore();
     }
 
     printScoreAndAnswers();
@@ -241,32 +239,22 @@ void multiplicationRandomizer(){
 void divisionRandomizer(){
     printMenu();
 
-    srand(time(NULL));
-  	printf("\nHow many "DIV"Division"RESET" problems would you like to answer [up to 20 only]: ");
-    while(!problemErrorHandling()){
-        while (getchar() != '\n');
-      	printf("\nHow many "DIV"Division"RESET" problems would you like to answer [up to 20 only]: ");
-    }
-
-    system("cls");
-    printf("Loading ("BOLD"%d"RESET") "DIV"Division"RESET" Problems", numOfProblems);
-    loadingEllipsis();
-    printf("\n\n");
+  	strcpy(operationName, "Division");
+    strcpy(operationColor, DIVCOLOR);
+    getAndLoadNumberOfProblems();
     
     correctAnswers = (int *)malloc(numOfProblems * sizeof(int));
     userAnswers = (int *)malloc(numOfProblems * sizeof(int));
+    srand(time(NULL));
+
     for(i = 1; i <= numOfProblems; i++){
 		num2 = 1 + rand() % 10;
         num1 = num2 * (1 + rand() % 10);
         correctAnswer = num1 / num2;
         correctAnswers[i - 1] = correctAnswer;
         printf(TAB"Problem (%d): %d / %d = ", i, num1, num2);
-        scanf("%d", &userAnswer);
-
-        userAnswers[i - 1] = userAnswer;
-        if(correctAnswer == userAnswer){
-            score += 1;
-        }
+        
+        checkUserAnswerAndCalculateScore();
     }
 
     printScoreAndAnswers();

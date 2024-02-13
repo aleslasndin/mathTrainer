@@ -1,10 +1,9 @@
-to change
+to change/add:
+
 - make addition and subtraction problems easier
 
 - answer to problems error handling
     - for non numbers
     - and for floats
 
-avoid getting any keyboard input, while problems are "loading"; how?
-
-- "loading 1 addition problemssss"
+- avoid getting any keyboard input, while problems are "loading"; how?
